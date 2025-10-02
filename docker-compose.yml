@@ -1,0 +1,87 @@
+#Servicios a instalar
+
+services:
+  # Apache + PHP
+  proyecto1php:
+    build:
+      context: ./.docker
+      dockerfile: Dockerfile
+    container_name: containerphp
+
+    #user: 1000:1000
+
+    #Crear un volumen para almacenar mi página web
+    volumes:
+      - ./src:/var/www/html
+      - .docker/apache/000-default.conf:/etc/apache2/sites-enabled/000-default.conf
+      - .docker/php/php.ini-development:/usr/local/etc/php/php.ini-development
+      - .docker/xdebug/debug.ini:/usr/local/etc/php/conf.d/debug.ini
+
+    ports:
+      - 8080:80
+    expose:
+      - 80
+    networks:
+      - proyecto1
+    links:
+      - mariadb
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mariadb:
+    image: mariadb:latest
+
+    volumes:
+      - .docker/mariadb:/var/lib/mysql:z
+    ports:
+      - 3307:3306
+    networks:
+      - proyecto1
+    environment:
+      MARIADB_ROOT_PASSWORD: toor
+      MARIADB_DATABASE: proyecto1
+      MARIADB_USER: juande
+      MARIADB_PASSWORD: ednauj
+    command:
+      --default-authentication-plugin=mysql_native_password
+
+  mongo:
+    image: mongo
+    restart: on-failure
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - proyecto1
+    ports:
+      - 27018:27017
+
+  redis:
+    image: redis:latest
+    volumes:
+      - .docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - 6379:6379
+    networks:
+      - proyecto1
+
+  openldap:
+    image: bitnami/openldap:latest
+    ports:
+      - 1389:1389
+      - 1636:1636
+    environment:
+      - LDAP_ADMIN_USERNAME=root
+      - LDAP_ADMIN_PASSWORD=toor
+      - LDAP_USERS=juande
+      - LDAP_PASSWORDS=ednauj
+    networks:
+      - proyecto1
+    volumes:
+      - .docker/openldap_data:/bitnami/openldap
+
+networks:
+  proyecto1:
+    name: proyecto1
+    driver: bridge
+
