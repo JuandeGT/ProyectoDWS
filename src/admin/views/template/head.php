@@ -14,7 +14,7 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link href="./views/template/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="templatedist/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -34,8 +34,8 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="./views/template/dist/css/carousel.css" rel="stylesheet">
-    <link href="./views/template/dist/css/features.css" rel="stylesheet">
+    <link href="<?=DIRECTORIO_CSS?>carousel.css" rel="stylesheet">
+    <link href="<?=DIRECTORIO_CSS?>features.css" rel="stylesheet">
 
 </head>
 <body>
