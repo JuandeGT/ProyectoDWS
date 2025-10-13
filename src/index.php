@@ -46,6 +46,7 @@ $router->get('/administrador/add-pelicula', function (){
 
 $router->post('/pelicula', function (){
     #var_dump($_POST);
+    #var_dump($_FILES);
     #echo json_encode($_POST);
 
 });

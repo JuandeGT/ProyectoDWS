@@ -14,7 +14,7 @@
 
 
     <!-- Bootstrap core CSS -->
-    <link href="templatedist/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?=DIRECTORIO_CSS?>bootstrap.min.css" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
