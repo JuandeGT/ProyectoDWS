@@ -22,12 +22,12 @@ class SeriesController implements ControllerInterface
         // TODO: Implement store() method.
     }
 
-    function update()
+    function update($id)
     {
         // TODO: Implement update() method.
     }
 
-    function destroy()
+    function destroy($id)
     {
         // TODO: Implement destroy() method.
     }

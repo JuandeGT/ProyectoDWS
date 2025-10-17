@@ -4,12 +4,11 @@ namespace App\Controller;
 
 use App\Interface\ControllerInterface;
 
-class MovieController implements ControllerInterface
+class DirectorController implements ControllerInterface
 {
-
-    function index()
+    public function index()
     {
-        // TODO: Implement index() method.
+        return "Los directores son:";
     }
 
     function show($id)
@@ -19,7 +18,7 @@ class MovieController implements ControllerInterface
 
     function store()
     {
-        // TODO: Implement store() method.
+        var_dump($_POST);
     }
 
     function update($id)
@@ -29,12 +28,12 @@ class MovieController implements ControllerInterface
 
     function destroy($id)
     {
-        // TODO: Implement destroy() method.
+        return "Voy a destruir el director con id $id";
     }
 
     function create()
     {
-        include_once DIRECTORIO_VISTAS_ADMINISTRACION."add-pelicula.php";
+        // TODO: Implement create() method.
     }
 
     function edit($id)

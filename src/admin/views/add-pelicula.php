@@ -8,7 +8,7 @@ include_once("views/template/main.php");
 
 ?>
 
-<form action="/pelicula" method="post">
+<form action="/movie" method="post" enctype="multipart/form-data">
 <div class="mb-3">
     <label for="exampleFormControlInputTitulo" class="form-label">Titulo</label>
     <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Introduce el título">
