@@ -22,6 +22,8 @@ $router->get('/',function(){
 
 //Rutas de Usuario CRUD
 //Rutas de Servicio API REST
+$router->get('/user/create',[UserController::class,'create']);
+
 $router->get('/user',[UserController::class,'index']);
 $router->get('/user/{id}',[UserController::class,'show']);
 $router->post('/user',[UserController::class,'store']);
@@ -60,7 +62,7 @@ $router->delete('/director/{id}',[DirectorController::class,'destroy']);
 
 
 $router->get('/administrador',function(){
-    include_once "admin/welcome.php";
+    include_once "admin/views/welcome.php";
 });
 
 $router->get( '/login',function(){

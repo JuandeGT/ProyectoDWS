@@ -3,13 +3,20 @@
 namespace App\Controller;
 
 use App\Interface\ControllerInterface;
+use App\Model\userModel;
+use Ramsey\Uuid\Uuid;
+use App\Class\User;
+use Respect\Validation\Validator as v;
 
 class UserController implements ControllerInterface
 {
 
     function index()
     {
-        return "Hola";
+        $usuarios = UserModel::getAllUsers();
+        include_once DIRECTORIO_VISTAS_ADMINISTRACION."allusers.php";
+
+        //return json_encode($usuario1);
     }
 
     function show($id)
@@ -20,6 +27,12 @@ class UserController implements ControllerInterface
     function store()
     {
         var_dump($_POST);
+        v::key('username',v::stringType())
+            ->key('password',v::stringType()->length(3,16))
+            ->key('email',v::email())
+            ->key('edad',v::intType())
+            ->key('type',v::in(['normal', 'anuncios', 'admin']))
+            ->assert($_POST);
     }
 
     function update($id)
@@ -34,7 +47,7 @@ class UserController implements ControllerInterface
 
     function create()
     {
-        // TODO: Implement create() method.
+        return "formulario para crear usuario";
     }
 
     function edit($id)
