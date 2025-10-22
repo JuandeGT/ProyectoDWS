@@ -3,6 +3,8 @@ include_once "vendor/autoload.php";
 include_once "env.php";
 include_once "auxiliar/funciones.php";
 
+session_start();
+
 //Directorio para inserta o utilizar la clase RouteCollector
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\RouteCollector;
@@ -21,19 +23,26 @@ $router->get('/',function(){
 });
 
 //Rutas de Usuario CRUD
-//Rutas de Servicio API REST
+//Rutas asociadas a las vistas de usuario
+$router->get('/user/{id}/edit',[UserController::class,'edit']);
 $router->get('/user/create',[UserController::class,'create']);
+$router->get('/login',[UserController::class,'show-login']);
+$router->post('/user/login',[UserController::class,'verify']);
 
+
+//Rutas para la aplicación web visual
 $router->get('/user',[UserController::class,'index']);
 $router->get('/user/{id}',[UserController::class,'show']);
 $router->post('/user',[UserController::class,'store']);
 $router->put('/user/{id}',[UserController::class,'update']);
 $router->delete('/user/{id}',[UserController::class,'destroy']);
 
-//Rutas asociadas a las vistas de usuario
-#$router->get('/user/create',[UserController::class,'create']);
-$router->get('/user/{id}/edit',[UserController::class,'edit']);
-
+;//Rutas de Servicio API REST
+$router->get('/api/user',[UserController::class,'index']);
+$router->get('/api/user/{id}',[UserController::class,'show']);
+$router->post('/api/user',[UserController::class,'store']);
+$router->put('/api/user/{id}',[UserController::class,'update']);
+$router->delete('/api/user/{id}',[UserController::class,'destroy']);
 
 
 //Rutas de Peliculas CRUD
