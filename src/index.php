@@ -26,7 +26,7 @@ $router->get('/',function(){
 //Rutas asociadas a las vistas de usuario
 $router->get('/user/{id}/edit',[UserController::class,'edit']);
 $router->get('/user/create',[UserController::class,'create']);
-$router->get('/login',[UserController::class,'show-login']);
+$router->get('/login',[UserController::class,'show_login']);
 $router->post('/user/login',[UserController::class,'verify']);
 
 
@@ -72,13 +72,6 @@ $router->delete('/director/{id}',[DirectorController::class,'destroy']);
 
 $router->get('/administrador',function(){
     include_once "admin/views/welcome.php";
-});
-
-$router->get( '/login',function(){
-    include_once "views/indice.php";
-});
-$router->post('/login', function (){
-    var_dump($_POST);
 });
 
 $router->delete('/pelicula/{id}',function ($id){

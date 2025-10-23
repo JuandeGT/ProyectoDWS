@@ -57,7 +57,7 @@ class UserController implements ControllerInterface
 
     function create()
     {
-        return "formulario para crear usuario";
+        include_once "app/Views/backend/register.php";
     }
 
     function edit($id)
@@ -66,10 +66,19 @@ class UserController implements ControllerInterface
     }
 
     function verify(){
-        $_POST['username'];
-        $_POST['password'];
+        /*$_POST['username'];
+        $_POST['password'];*/
+
+        var_dump($_POST);
 
         //Si es correcto el login
         $_SESSION['username']=$_POST['username'];
+
+        var_dump($_SESSION);
     }
+
+    function show_login(){
+        include_once "app/Views/backend/login.php";
+    }
+
 }
