@@ -1,11 +1,11 @@
 <html>
 <head>
-    <title>Iniciar Sesión</title>
+    <title>Registrarse</title>
 </head>
 <body>
 
 <h1>Bienvenido a Netflix</h1>
-<form action="/user" method="post">
+<form action="/user/create" method="post">
     <label for="inputUsername">Nombre de Usuario</label>
     <input type="text" id="inputUsername" name="username" placeholder="Introduce tu usuario" aria-label="Input de Username" required>
 

@@ -25,9 +25,11 @@ $router->get('/',function(){
 //Rutas de Usuario CRUD
 //Rutas asociadas a las vistas de usuario
 $router->get('/user/{id}/edit',[UserController::class,'edit']);
-$router->get('/user/create',[UserController::class,'create']);
+$router->get('/register',[UserController::class,'create']);
+$router->post('/user/create',[UserController::class,'store']);
 $router->get('/login',[UserController::class,'show_login']);
 $router->post('/user/login',[UserController::class,'verify']);
+$router->get('/user/logout',[UserController::class,'logout']);
 
 
 //Rutas para la aplicación web visual

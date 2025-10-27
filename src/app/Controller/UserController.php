@@ -22,14 +22,25 @@ class UserController implements ControllerInterface
 
     function show($id)
     {
+        if(isset($_SESSION['username'])){
+            //Muestro la vista con los datos del usuario
+        }else{
+            //Muestro una vista de no se puede acceder a estos datos
+        }
         return "Estos son los datos del usuario $id";
     }
 
     function store()
     {
 
-        var_dump(User::validateUserCreation($_POST));
+        $usuario=User::validateUserCreation($_POST);
 
+        $_SESSION['usuario']=$usuario;
+        if($usuario->getType()->name=="ADMIN"){
+            include_once "app/Views/backend/userpanel.php";
+        }
+        var_dump($_SESSION);
+        var_dump(empty($_SESSION['usuario']));
     }
 
     function update($id)
@@ -68,13 +79,45 @@ class UserController implements ControllerInterface
     function verify(){
         /*$_POST['username'];
         $_POST['password'];*/
+        /*var_dump(password_verify($_POST['password'],$hash));*/
 
-        var_dump($_POST);
+        var_dump($_SESSION);
+        if (isset($_SESSION['usuario']) && isset($_POST['username'], $_POST['password'])) {
+            $usuario = $_SESSION['usuario'];
+            $hash=password_hash($usuario->getPassword(),PASSWORD_DEFAULT);
+
+            // Comprobar si el nombre de usuario coincide
+            if ($usuario->getUsername() === $_POST['username']) {
+
+                // Verificar contraseña: primero la escrita, luego la almacenada (hash)
+                if (password_verify($_POST['password'], $hash)) {
+                    echo "Login correcto";
+                } else {
+                    echo "Login incorrecto (contraseña errónea)";
+                }
+            } else {
+                echo "Login incorrecto (usuario no coincide)";
+            }
+        } else {
+            echo "Faltan datos o no hay sesión activa.";
+        }
+
+
+        /*var_dump($_POST);
+        $idUsuario="706fd07e-d403-45bb-8a79-aca9886aae1d";
+
+        //Petición a la base de datos para comprobar si el usuario existe
+
 
         //Si es correcto el login
         $_SESSION['username']=$_POST['username'];
+        $_SESSION['uuid']=$idUsuario;
 
-        var_dump($_SESSION);
+        var_dump($_SESSION);*/
+    }
+
+    function logout(){
+        session_destroy();
     }
 
     function show_login(){
