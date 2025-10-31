@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Interface\ControllerInterface;
-use App\Model\userModel;
+use App\Model\UserModel;
 use Ramsey\Uuid\Uuid;
 use App\Class\User;
 use Respect\Validation\Exceptions\NestedValidationException;
@@ -15,7 +15,7 @@ class UserController implements ControllerInterface
     function index()
     {
         $usuarios = UserModel::getAllUsers();
-        include_once DIRECTORIO_VISTAS_ADMINISTRACION."allusers.php";
+        include_once DIRECTORIO_USER_BACKEND."allusers.php";
 
         //return json_encode($usuario1);
     }
@@ -37,14 +37,19 @@ class UserController implements ControllerInterface
 
         $_SESSION['usuario']=$usuario;
         if($usuario->getType()->name=="ADMIN"){
+            $usuarios = UserModel::getAllUsers();
             include_once "app/Views/backend/userpanel.php";
+        }else{
+            var_dump($_SESSION);
+            /*var_dump(empty($_SESSION['usuario']));*/
         }
-        var_dump($_SESSION);
-        var_dump(empty($_SESSION['usuario']));
+
+
     }
 
     function update($id)
     {
+        return "El usuario $id ha sido modificado";
         // en caso de error: $editData=[];
         //Leo del fichero input los datos que me han llegado en la petición PUT
         parse_str(file_get_contents("php://input"), $editData);
@@ -68,12 +73,18 @@ class UserController implements ControllerInterface
 
     function create()
     {
-        include_once "app/Views/backend/register.php";
+        include_once DIRECTORIO_USER_BACKEND."register.php";
+
     }
 
     function edit($id)
     {
-        // TODO: Implement edit() method.
+        // Recuperar los datos de un usuario del Modelo
+        $usuario = UserModel::getUserById($id);
+
+        // Llamar a la vista que me muestre los datos del usuario
+        include_once DIRECTORIO_USER_BACKEND."editUser.php";
+
     }
 
     function verify(){
@@ -81,13 +92,13 @@ class UserController implements ControllerInterface
         $_POST['password'];*/
         /*var_dump(password_verify($_POST['password'],$hash));*/
 
-        var_dump($_SESSION);
+        /*var_dump($_SESSION);*/
         if (isset($_SESSION['usuario']) && isset($_POST['username'], $_POST['password'])) {
             $usuario = $_SESSION['usuario'];
             $hash=password_hash($usuario->getPassword(),PASSWORD_DEFAULT);
 
             // Comprobar si el nombre de usuario coincide
-            if ($usuario->getUsername() === $_POST['username']) {
+            /*if ($usuario->getUsername() === $_POST['username']) {
 
                 // Verificar contraseña: primero la escrita, luego la almacenada (hash)
                 if (password_verify($_POST['password'], $hash)) {
@@ -97,6 +108,11 @@ class UserController implements ControllerInterface
                 }
             } else {
                 echo "Login incorrecto (usuario no coincide)";
+            }*/
+            if($usuario->getUsername() === $_POST['username'] && password_verify($_POST['password'], $hash)){
+                echo "Login correcto";
+            } else{
+                echo "ERROR, no te voy a decir dónde, búscate la vida puto retrasado";
             }
         } else {
             echo "Faltan datos o no hay sesión activa.";
@@ -121,7 +137,7 @@ class UserController implements ControllerInterface
     }
 
     function show_login(){
-        include_once "app/Views/backend/login.php";
+        include_once DIRECTORIO_USER_BACKEND."login.php";
     }
 
 }

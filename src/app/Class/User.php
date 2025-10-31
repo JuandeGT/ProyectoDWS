@@ -123,7 +123,7 @@ class User implements \JsonSerializable
                 ->key('password', v::stringType()->length(3, 16))
                 ->key('email', v::email())
                 ->key('edad', v::intVal()->min(18))
-                ->key('type', v::in(['normal', 'anuncios', 'admin']))
+                ->key('type', v::in(['normal', 'anuncios', 'admin']), false)
                 ->assert($userData);
         }catch (NestedValidationException $errores){
             return $errores->getMessages();

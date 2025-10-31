@@ -268,7 +268,7 @@
 </main>
 
 
-<script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+<script src="<?=DIRECTORIO_JS_BACKEND?>bootstrap.bundle.min.js"></script>
 
 
 </body>

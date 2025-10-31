@@ -24,4 +24,17 @@ class userModel
 
         return $usuarios;
     }
+
+    public static function getUserById(string $id):User{
+
+        $usuario=new User(
+            Uuid::fromString($id),
+            "juande",
+            "ednauj",
+            "juande@juande.com"
+        );
+        return $usuario;
+    }
+
+
 }
