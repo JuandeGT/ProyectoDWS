@@ -22,27 +22,32 @@ class UserController implements ControllerInterface
 
     function show($id)
     {
-        if(isset($_SESSION['username'])){
-            //Muestro la vista con los datos del usuario
-        }else{
-            //Muestro una vista de no se puede acceder a estos datos
-        }
-        return "Estos son los datos del usuario $id";
+        $usuario=UserModel::getUserById();
+        include_once DIRECTORIO_USER_BACKEND."mostrarUser.php";
     }
 
     function store()
     {
 
-        $usuario=User::validateUserCreation($_POST);
+        $resultado = User::validateUserCreation($_POST);
 
-        $_SESSION['usuario']=$usuario;
+        if(is_array($resultado)){
+            //datos erroneos
+        }else{
+            $resultado->setPassword(password_hash($resultado->getPassword(),PASSWORD_DEFAULT));
+            UserModel::saveUser($resultado);
+            header('Location: /user');
+        }
+
+
+        /*$_SESSION['usuario']=$usuario;
         if($usuario->getType()->name=="ADMIN"){
             $usuarios = UserModel::getAllUsers();
             include_once "app/Views/backend/userpanel.php";
         }else{
             var_dump($_SESSION);
-            /*var_dump(empty($_SESSION['usuario']));*/
-        }
+            //var_dump(empty($_SESSION['usuario']));
+        }*/
 
 
     }
@@ -133,7 +138,7 @@ class UserController implements ControllerInterface
     }
 
     function logout(){
-        session_destroy();
+
     }
 
     function show_login(){

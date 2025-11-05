@@ -19,14 +19,13 @@ $router = new RouteCollector();
 //Definir las rutas de mi aplicación
 
 $router->get('/',function(){
-    return 'Estoy en la página principal';
+    return /*'Hola ' .$_SESSION[]*/ 'Estoy en la página principal';
 });
 
 //Rutas de Usuario CRUD
 //Rutas asociadas a las vistas de usuario
 $router->get('/user/{id}/edit',[UserController::class,'edit']);
-$router->get('/register',[UserController::class,'create']);
-$router->post('/user/create',[UserController::class,'store']);
+$router->get('/user/create',[UserController::class,'create']);
 $router->get('/login',[UserController::class,'show_login']);
 $router->post('/user/login',[UserController::class,'verify']);
 $router->get('/user/logout',[UserController::class,'logout']);

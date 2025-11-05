@@ -10,6 +10,7 @@ use Respect\Validation\Validator as v;
 
 class User implements \JsonSerializable
 {
+    private ?int $id;
     private UuidInterface $uuid;
     private string $username;
     private string $password;
@@ -19,6 +20,7 @@ class User implements \JsonSerializable
     private UserType $type;
 
     public function __construct(UuidInterface $uuid, string $username, string $password, string $email, UserType $type=UserType::NORMAL){
+    $this->id=null;
     $this->uuid=$uuid;
     $this->username=$username;
     $this->password=$password;
@@ -27,6 +29,15 @@ class User implements \JsonSerializable
     $this->visualizaciones=[];
     }
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function setId(int $id): User
+    {
+        $this->id = $id;
+        return $this;
+    }
     public function getUuid(): UuidInterface
     {
         return $this->uuid;
@@ -116,6 +127,24 @@ class User implements \JsonSerializable
         ];
     }
 
+    public static function createFromArray(array $userData):User{
+
+        if (!isset($userData['uuid'])){
+            $userData['uuid']=Uuid::uuid4()->toString();
+        }
+
+        $usuario = new User(
+            Uuid::fromString($userData['uuid']),
+            $userData['username'],
+            $userData['password'],
+            $userData['email']);
+
+        $usuario->setEdad($userData['edad']);
+        $usuario->setType(UserType::stringToUserType($userData['type']));
+
+        return $usuario;
+    }
+
     public static function validateUserCreation(array $userData)
     :User|array{
         try {
@@ -129,16 +158,7 @@ class User implements \JsonSerializable
             return $errores->getMessages();
         }
 
-        $usuario = new User(
-            Uuid::uuid4(),
-            $userData['username'],
-            $userData['password'],
-            $userData['email']);
-
-        $usuario->setEdad($userData['edad']);
-        $usuario->setType(UserType::stringToUserType($userData['type']));
-
-        return $usuario;
+        return User::createFromArray($userData);
     }
 
     public static function validateUserEdit(array $userData):User|array{
